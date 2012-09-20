@@ -54,15 +54,12 @@ alpha_conversion_table = {
 
 def get_alpha_bitstream(to_encode):
   character_list = map(lambda x: alpha_conversion_table[x], list(to_encode.upper()))
-
   character_pairs = zip(*(iter(character_list),) * 2)
-
-  return "".join(map(lambda pair: "{0:b}".format( pair[0] * 45 + pair[1]), character_pairs))
-
-
-print get_alpha_bitstream("http://www.google.com")
-
+  code = "{0:04b}".format(2)
+  encoded_length = "{0:09b}".format(len(to_encode))
+  bitstream = "".join(map(lambda pair: "{0:011b}".format( pair[0] * 45 + pair[1])  + " ", character_pairs))
+  return code + " " + encoded_length + " " + bitstream
 
 
 
-
+print get_alpha_bitstream("AC-42")
